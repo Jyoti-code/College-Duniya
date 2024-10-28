@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
-import { BiEditAlt, BiSearch, BiBell, BiMenu, BiX } from 'react-icons/bi';
+import React, { useState } from "react";
+import { BiEditAlt, BiSearch, BiBell, BiMenu, BiX } from "react-icons/bi";
 import { MdOutlineSchool } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { HiOutlineSquares2X2 } from "react-icons/hi2";
+import LoginModal from "./LoginModal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <nav className="absolute top-0 left-0 right-0 z-20 bg-black bg-opacity-50 px-4 py-2 flex items-center">
-      {/* Logo - Always visible */}
+      
       <div className="flex items-center">
         <a href="/">
-          <img src="assets/logo.webp" alt="Logo" className="h-11" />
+          <img src="assets/blue-logo.png" alt="Logo" className="h-11" />
         </a>
       </div>
 
-      {/* Only show this border in desktop view */}
       <div className="border-l-2 border-white h-9 mx-9 hidden md:block"></div>
 
-      {/* Desktop View - Select Goal and City (hidden on mobile) */}
       <div className="hidden md:flex items-center space-x-4 mr-5">
         <div className="flex flex-col">
           <div className="flex flex-row font-bold items-center text-blue-500 space-x-1">
@@ -29,9 +33,15 @@ const Navbar = () => {
             </p>
           </div>
           <select className="bg-transparent text-white rounded py-1 mt-1 text-sm">
-            <option value="" className='text-black'>Select Goal</option>
-            <option value="goal1" className='text-black'>Goal 1</option>
-            <option value="goal2" className='text-black'>Goal 2</option>
+            <option value="" className="text-black">
+              Select Goal
+            </option>
+            <option value="goal1" className="text-black">
+              Goal 1
+            </option>
+            <option value="goal2" className="text-black">
+              Goal 2
+            </option>
           </select>
         </div>
       </div>
@@ -48,8 +58,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Desktop Icons (hidden on mobile) */}
-      <div className='hidden md:flex flex-row justify-end ml-auto'>
+      <div className="hidden md:flex flex-row justify-end ml-auto">
         <div className="flex space-x-4 items-center">
           <div className="flex flex-col mx-6">
             <div className="flex flex-row items-center text-black space-x-1">
@@ -64,24 +73,41 @@ const Navbar = () => {
           <div className="border-l-2 border-white h-9"></div>
 
           <div className="flex items-center space-x-2 mx-6">
-            <HiOutlineSquares2X2 className="h-6 w-6 text-white" title="Explore" />
+            <HiOutlineSquares2X2
+              className="h-6 w-6 text-white"
+              title="Explore"
+            />
             <button className="text-white">Explore</button>
           </div>
 
-          <button className="text-gray-800 mx-6">
-            <BiBell className="h-6 w-6 text-white" title="Notifications" />
+          <button className="bg-gray-800 text-white rounded-full h-10 w-10 flex items-center justify-center mx-6">
+            <BiBell className="h-6 w-6" title="Notifications" />
           </button>
-          
-          <button className="text-gray-800">
-            <BiMenu className="h-6 w-6 text-white" title="Menu" />
+
+          {/* Menu Button that opens modal */}
+          <button
+            onClick={toggleModal}
+            className="bg-gray-800 text-white rounded-full h-10 w-10 flex items-center justify-center"
+          >
+            <BiMenu className="h-6 w-6" title="Menu" />
           </button>
+
+          {/* Right-Side Login Modal */}
+          <LoginModal isOpen={isModalOpen} toggleModal={toggleModal} />
         </div>
       </div>
 
       {/* Mobile Menu Button */}
       <div className="md:hidden ml-auto flex items-center">
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-800">
-          {isMenuOpen ? <BiX className="h-6 w-6" /> : <BiMenu className="h-6 w-6" />}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="text-gray-800"
+        >
+          {isMenuOpen ? (
+            <BiX className="h-6 w-6" />
+          ) : (
+            <BiMenu className="h-6 w-6" />
+          )}
         </button>
       </div>
 
@@ -126,9 +152,10 @@ const Navbar = () => {
               <BiBell className="h-6 w-6" title="Notifications" />
             </button>
 
-            <button className="text-gray-800">
+            <button onClick={toggleModal} className="text-gray-800">
               <BiMenu className="h-6 w-6" title="Menu" />
             </button>
+            <LoginModal isOpen={isModalOpen} toggleModal={toggleModal} />
           </div>
         </div>
       )}
